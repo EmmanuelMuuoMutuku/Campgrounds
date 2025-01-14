@@ -33,10 +33,6 @@ mongoose.connect(dbUrl, {
     // useCreateIndex: true,
     // useUnifiedTopology: true // Handles MongoDB driver's new connection management engine
     // useFindAndModify: false
-}).then(() => {
-    console.log('Connected to MongoDB');
-}).catch((err) => {
-    console.error('Failed to connect to MongoDB', err);
 });
 
 
@@ -165,9 +161,6 @@ app.all('*', (req, res, next) => {
 })
 
 app.use((err, req, res, next) => {
-    if (res.headersSent) {
-        return next(err); // Pass the error to the default Express error handler
-    }
     const { statusCode = 500 } = err;
     if (!err.message) err.message = 'Oh No, Something Went Wrong!'
     res.status(statusCode).render('error', { err });
