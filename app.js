@@ -29,9 +29,9 @@ const dbUrl = 'mongodb://127.0.0.1:27017/yelp-camp';
 
 
 mongoose.connect(dbUrl, {
-    useNewUrlParser: true, // Parses MongoDB connection stings
+    // useNewUrlParser: true, // Parses MongoDB connection stings
     // useCreateIndex: true,
-    useUnifiedTopology: true // Handles MongoDB driver's new connection management engine
+    // useUnifiedTopology: true // Handles MongoDB driver's new connection management engine
     // useFindAndModify: false
 }).then(() => {
     console.log('Connected to MongoDB');
@@ -165,6 +165,9 @@ app.all('*', (req, res, next) => {
 })
 
 app.use((err, req, res, next) => {
+    if (res.headersSent) {
+        return next(err); // Pass the error to the default Express error handler
+    }
     const { statusCode = 500 } = err;
     if (!err.message) err.message = 'Oh No, Something Went Wrong!'
     res.status(statusCode).render('error', { err });
