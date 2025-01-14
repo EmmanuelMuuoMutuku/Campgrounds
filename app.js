@@ -25,14 +25,18 @@ const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
 
 const MongoStore = require('connect-mongo');
-const dbUrl = 'mongodb://localhost:27017/yelp-camp';
+const dbUrl = 'mongodb://127.0.0.1:27017/yelp-camp';
 
 
 mongoose.connect(dbUrl, {
-    // useNewUrlParser: true, // Parses MongoDB connection stings
+    useNewUrlParser: true, // Parses MongoDB connection stings
     // useCreateIndex: true,
-    // useUnifiedTopology: true // Handles MongoDB driver's new connection management engine
+    useUnifiedTopology: true // Handles MongoDB driver's new connection management engine
     // useFindAndModify: false
+}).then(() => {
+    console.log('Connected to MongoDB');
+}).catch((err) => {
+    console.error('Failed to connect to MongoDB', err);
 });
 
 
